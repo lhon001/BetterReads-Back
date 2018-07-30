@@ -38,5 +38,4 @@ class Api::V1::ShelvesController < ApplicationController
     @shelf = Shelf.find(params[:id])
   end
 
-
 end

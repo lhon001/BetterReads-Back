@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, :books, :shelves, :shelves_books
       get"/search/:term" => "search#show"
+      get"/best-sellers" => "search#best_sellers"
 
     end
   end
