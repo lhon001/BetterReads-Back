@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: [:update, :show]
-  
+
   def index
     all_users = User.all
     render json: all_users
@@ -11,6 +11,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
+    # byebug
     user = User.create(name: user_params[:name], username: user_params[:username], password: user_params[:password])
     render json: user, status: :created
   end

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, :books, :shelves, :shelves_books
-      get"/search" => "search#show"
+      get"/search/:term" => "search#show"
 
     end
   end

@@ -3,6 +3,7 @@ class Api::V1::ShelvesController < ApplicationController
 
   def index
     shelves = Shelf.all
+    render json: shelves
   end
 
   def show
@@ -11,11 +12,20 @@ class Api::V1::ShelvesController < ApplicationController
 
   def create
     shelf = Shelf.create(name: shelf_params[:name], user_id: shelf_params[:user_id])
-    render json: shelf
+    render json: shelf, status: :created
   end
 
   def delete
+    Shelf.destroy(shelf_params)
+  end
 
+  def update
+    @shelf.update(shelf_params)
+    if @shelf.save
+      render json @shelf, status: :accepted
+    else
+      render json: {errors: @shelf.errors.full_messages}, status: :unprocessible_entity
+    end
   end
 
   private
