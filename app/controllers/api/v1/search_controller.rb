@@ -9,7 +9,8 @@ class Api::V1::SearchController < ApplicationController
     jsoned_response = JSON.parse(response)
 
     formatted_response = jsoned_response["items"].map do |info|
-      {title: info["volumeInfo"]["title"],
+      {id: info["volumeInfo"]["industryIdentifiers"][0]["identifier"],
+      title: info["volumeInfo"]["title"],
       author: info["volumeInfo"]["authors"],
       description: info["volumeInfo"]["description"],
       image: info["volumeInfo"]["imageLinks"] ? info["volumeInfo"]["imageLinks"]["thumbnail"] : nil}
@@ -26,7 +27,8 @@ class Api::V1::SearchController < ApplicationController
     jsoned_response = JSON.parse(response)
     random = rand(0..12)
     formatted_response = jsoned_response["results"]["lists"][random]["books"].map do |book|
-      {title:book["title"],
+      {id: book["primary_isbn13"],
+      title:book["title"],
       author: book["author"],
       description: book["description"],
       image: book["book_image"]}
