@@ -12,8 +12,13 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     # byebug
-    user = User.create(name: user_params[:name], username: user_params[:username], password: user_params[:password])
-    render json: user, status: :created
+    user = User.create(name: user_params[:name], username: user_params[:username], password_digest: user_params[:password])
+    if user.valid?
+      render json: {token: issue_token({id: user.id})}, status: :created
+    else
+      render json: {error: "user not created"}
+    end
+
   end
 
   def delete
@@ -29,10 +34,24 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def login
+    user = User.find_by(username: user_params[:username])
+    byebug
+    if user && user.authenticate(user_params[:password])
+      render json: {token: issue_token({id: user.id})}
+    else
+      render json: {error: "login failed"}, status: 401
+    end
+  end
+
+  def get_current_user
+    render json: current_user
+  end
+
   private
 
   def user_params
-    params.permit(:name, :username, :password)
+    params.require(:user).permit(:name, :username, :password)
   end
 
   def find_user

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       get"/search/:term" => "search#show"
       get"/best-sellers" => "search#best_sellers"
 
+      post"/login" => "users#login"
+      get"/current_user" => "users#get_current_user"
     end
   end
 end
