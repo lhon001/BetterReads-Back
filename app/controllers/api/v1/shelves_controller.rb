@@ -31,7 +31,7 @@ class Api::V1::ShelvesController < ApplicationController
   private
 
   def shelf_params
-    params.permit(:name, :user_id)
+    params.require(:shelf).permit(:name, :user_id)
   end
 
   def find_shelf
