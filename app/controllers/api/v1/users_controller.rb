@@ -11,7 +11,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    user = User.create(name: user_params[:name], username: user_params[:username], password_digest: user_params[:password])
+    # byebug
+    user = User.create(name: user_params[:name], username: user_params[:username].downcase, password: user_params[:password])
     if user.valid?
       render json: {token: issue_token({id: user.id})}, status: :created
     else
@@ -34,7 +35,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def login
-    user = User.find_by(username: user_params[:username])
+    byebug
+    user = User.find_by(username: user_params[:username].downcase)
     if user && user.authenticate(user_params[:password])
       render json: {token: issue_token({id: user.id})}
     else
