@@ -48,6 +48,10 @@ class Api::V1::UsersController < ApplicationController
     render json: current_user
   end
 
+  def get_user_shelves
+    render json: current_user.shelves
+  end
+
   private
 
   def user_params

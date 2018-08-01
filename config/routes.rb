@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
       post"/login" => "users#login"
       get"/current_user" => "users#get_current_user"
+
+      get"/users/:id/shelves" => "users#get_user_shelves"
     end
   end
 end
