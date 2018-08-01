@@ -14,8 +14,14 @@ before_action :find_book, only: [:show, :update]
 
   # create by favoriting a book
   def create
-    book = Book.create(book_params)
-    render json: book, status: :created
+    book = Book.create(title: book_params[:title], author: book_params[:author], description: book_params[:description], image: book_params[:image])
+    if book.valid?
+      x = ShelvesBook.create(shelf_id: params["shelf"], book_id: book.id)
+      byebug
+      render json: book, status: :created
+    else
+      render json: {error: "book not created"}
+    end
   end
 
   # remove a favorited book by deleting
@@ -26,7 +32,7 @@ before_action :find_book, only: [:show, :update]
   private
 
   def book_params
-    params.permit(:title, :author, :book_id)
+    params.require(:book).permit(:title, :author, :image, :description)
   end
 
   def find_book
