@@ -17,7 +17,6 @@ before_action :find_book, only: [:show, :update]
     book = Book.create(title: book_params[:title], author: book_params[:author], description: book_params[:description], image: book_params[:image])
     if book.valid?
       x = ShelvesBook.create(shelf_id: params["shelf"], book_id: book.id)
-      byebug
       render json: book, status: :created
     else
       render json: {error: "book not created"}
