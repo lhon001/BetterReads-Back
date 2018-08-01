@@ -49,7 +49,13 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def get_user_shelves
-    render json: current_user.shelves
+    users_shelves_books = current_user.shelves.map do |shelf|
+      shelf.books
+    end
+    all = current_user.shelves.zip(users_shelves_books)
+    puts all
+    # shelf1: [book1, book2], shelf2: [book1, book2]
+    render json: all
   end
 
   private
